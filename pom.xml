@@ -13,6 +13,18 @@
         <module>nms-library-api</module>
     </modules>
 
+    <distributionManagement>
+        <repository>
+            <id>pretronic</id>
+            <url>https://repository.pretronic.net/repository/pretronic/</url>
+        </repository>
+    </distributionManagement>
+
+    <organization>
+        <name>McNative</name>
+        <url>https://mcnative.org</url>
+    </organization>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
