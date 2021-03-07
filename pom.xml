@@ -11,6 +11,7 @@
     <modules>
         <module>nms-library-1_8_R1</module>
         <module>nms-library-api</module>
+        <module>nms-library-1_8_R3</module>
     </modules>
 
     <distributionManagement>
