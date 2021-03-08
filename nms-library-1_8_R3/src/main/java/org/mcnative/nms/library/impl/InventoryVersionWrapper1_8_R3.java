@@ -67,6 +67,8 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
         public AnvilContainer(EntityHuman entityhuman) {
             super(entityhuman.inventory, entityhuman.world, new BlockPosition(0, 0, 0), entityhuman);
+            System.out.println("create anvil container");
+            this.a = 49;
         }
 
         @Override
