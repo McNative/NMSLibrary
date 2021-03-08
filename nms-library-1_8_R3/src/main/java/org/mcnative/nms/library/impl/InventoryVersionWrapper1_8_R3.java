@@ -1,6 +1,7 @@
 package org.mcnative.nms.library.impl;
 
 import net.minecraft.server.v1_8_R3.*;
+import net.pretronic.libraries.utility.reflect.ReflectException;
 import net.pretronic.libraries.utility.reflect.ReflectionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.mcnative.nms.library.api.InventoryVersionWrapper;
 
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -68,12 +70,38 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
         return ((CraftPlayer) player).getHandle();
     }
 
-    private class AnvilContainer extends ContainerAnvil {
+    private static class AnvilContainer extends ContainerAnvil {
+
+        private final Field gField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "g"));
+        private final Field hField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "h"));
+        private final Field mField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "m"));
+        private final Field lField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "l"));
+        private final Field kField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "k"));
 
         public AnvilContainer(EntityHuman entityhuman) {
             super(entityhuman.inventory, entityhuman.world, new BlockPosition(0, 0, 0), entityhuman);
             System.out.println("create anvil container");
             this.a = 49;
+        }
+
+        private static Field setAccessible(Field field) {
+            field.setAccessible(true);
+            return field;
+        }
+
+        private static <R> R getFieldValue(Object object, Field field, Class<R> value){
+            try {
+                return value.cast(field.get(object));
+            } catch (Exception exception) {throw new ReflectException(exception);}
+        }
+
+
+        public static void changeFieldValue(Object object,Field field,Object value){
+            try {
+                if(field != null){
+                    field.set(object,value);
+                }
+            } catch (Exception exception) {throw new ReflectException("Could not change file "+field.getName()+" from class "+field.getType(),exception);}
         }
 
         @Override
@@ -87,10 +115,10 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
         @Override
         public void e() {
-            IInventory g = ReflectionUtil.getFieldValue(ContainerAnvil.class,this,  "h", IInventory.class);
-            IInventory h = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "h", IInventory.class);
-            EntityHuman m = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "m", EntityHuman.class);
-            String l2 = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "l", String.class);
+            IInventory g = getFieldValue(this,  gField, IInventory.class);
+            IInventory h = getFieldValue(this, hField, IInventory.class);
+            EntityHuman m = getFieldValue(this, mField, EntityHuman.class);
+            String l2 = getFieldValue(this, lField, String.class);
 
 
             ItemStack itemstack = h.getItem(0);
@@ -109,7 +137,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                 int j = b0 + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
 
                 ///this.k = 0;
-                ReflectionUtil.changeFieldValue(ContainerAnvil.class,this, "k", 0);
+                changeFieldValue(this, kField, 0);
 
                 int k;
                 if (itemstack2 != null) {
