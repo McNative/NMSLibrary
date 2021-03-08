@@ -87,7 +87,6 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
         @Override
         public void e() {
-            System.out.println("e() void");
             IInventory g = ReflectionUtil.getFieldValue(ContainerAnvil.class,this,  "h", IInventory.class);
             IInventory h = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "h", IInventory.class);
             EntityHuman m = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "m", EntityHuman.class);
