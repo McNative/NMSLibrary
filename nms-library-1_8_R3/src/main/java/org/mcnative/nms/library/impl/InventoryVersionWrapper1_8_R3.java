@@ -88,10 +88,10 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
         @Override
         public void e() {
             System.out.println("e() void");
-            IInventory g = ReflectionUtil.getFieldValue(AnvilContainer.class,this,  "h", IInventory.class);
-            IInventory h = ReflectionUtil.getFieldValue(AnvilContainer.class,this, "h", IInventory.class);
-            EntityHuman m = ReflectionUtil.getFieldValue(AnvilContainer.class,this, "m", EntityHuman.class);
-            String l2 = ReflectionUtil.getFieldValue(AnvilContainer.class,this, "l", String.class);
+            IInventory g = ReflectionUtil.getFieldValue(ContainerAnvil.class,this,  "h", IInventory.class);
+            IInventory h = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "h", IInventory.class);
+            EntityHuman m = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "m", EntityHuman.class);
+            String l2 = ReflectionUtil.getFieldValue(ContainerAnvil.class,this, "l", String.class);
 
 
             ItemStack itemstack = h.getItem(0);
@@ -110,7 +110,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                 int j = b0 + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
 
                 ///this.k = 0;
-                ReflectionUtil.changeFieldValue(AnvilContainer.class,this, "k", 0);
+                ReflectionUtil.changeFieldValue(ContainerAnvil.class,this, "k", 0);
 
                 int k;
                 if (itemstack2 != null) {
