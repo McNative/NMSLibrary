@@ -86,7 +86,7 @@ public class CustomContainerAnvil extends Container {
         if (leftSlot == null) {
             // Make sure we don't have a result item.
             resultSlot.setItem(0, (ItemStack) null);
-            expCost = 35;//0
+            expCost = 0;//0
         } else {
             ItemStack resultItem = leftSlot.cloneItemStack();
             ItemStack rightSlot = processSlots.getItem(1);
@@ -102,7 +102,7 @@ public class CustomContainerAnvil extends Container {
                     int k = Math.min(resultItem.h(), resultItem.j() / 4);
                     if (k <= 0) {
                         resultSlot.setItem(0, (ItemStack) null);
-                        expCost = 35;//0
+                        expCost = 0;//0
                         return;
                     }
                     int someVariable;
@@ -119,7 +119,7 @@ public class CustomContainerAnvil extends Container {
                     if (!usingEnchantedBook && (resultItem.getItem() != rightSlot.getItem() || !resultItem.e())) {
                         // Make sure we don't have a result item.
                         resultSlot.setItem(0, (ItemStack) null);
-                        expCost = 35;//0
+                        expCost = 0;//0
                         return;
                     }
 
@@ -245,7 +245,7 @@ public class CustomContainerAnvil extends Container {
                     repairCost = rightSlot.getRepairCost();
                 }
                 repairCost = repairCost * 2 + 1;
-                resultItem.setRepairCost(repairCost);
+                resultItem.setRepairCost(35);//repairCost
                 EnchantmentManager.a(leftEnchantments, resultItem);
             }
             resultSlot.setItem(0, resultItem);
