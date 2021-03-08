@@ -113,6 +113,201 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
         public void b(EntityHuman entityhuman) {
         }
 
+        /*public void hgf() {
+            ItemStack itemstack = this.repairInventory.getItem(0);
+
+            this.levelCost = 1;
+            int i = 0;
+            byte b0 = 0;
+            byte b1 = 0;
+
+            if (itemstack.isEmpty()) {
+                CraftEventFactory.callPrepareAnvilEvent((InventoryView)getBukkitView(), ItemStack.a);
+                this.levelCost = 0;
+            } else {
+                ItemStack itemstack1 = itemstack.cloneItemStack();
+                ItemStack itemstack2 = this.repairInventory.getItem(1);
+                Map<Enchantment, Integer> map = EnchantmentManager.a(itemstack1);
+                int j = b0 + itemstack.getRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getRepairCost());
+
+                this.k = 0;
+                if (!itemstack2.isEmpty()) {
+                    boolean flag = (itemstack2.getItem() == Items.ENCHANTED_BOOK && !ItemEnchantedBook.e(itemstack2).isEmpty());
+
+
+
+
+                    if (itemstack1.e() && itemstack1.getItem().a(itemstack, itemstack2)) {
+                        int k = Math.min(itemstack1.getDamage(), itemstack1.h() / 4);
+                        if (k <= 0) {
+                            CraftEventFactory.callPrepareAnvilEvent((InventoryView)getBukkitView(), ItemStack.a);
+                            this.levelCost = 0;
+                            return;
+                        }
+                        int i1;
+                        for (i1 = 0; k > 0 && i1 < itemstack2.getCount(); i1++) {
+                            int l = itemstack1.getDamage() - k;
+                            itemstack1.setDamage(l);
+                            i++;
+                            k = Math.min(itemstack1.getDamage(), itemstack1.h() / 4);
+                        }
+
+                        this.k = i1;
+                    } else {
+                        if (!flag && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.e())) {
+                            CraftEventFactory.callPrepareAnvilEvent((InventoryView)getBukkitView(), ItemStack.a);
+                            this.levelCost = 0;
+
+                            return;
+                        }
+                        if (itemstack1.e() && !flag) {
+                            int k = itemstack.h() - itemstack.getDamage();
+                            int i1 = itemstack2.h() - itemstack2.getDamage();
+                            int l = i1 + itemstack1.h() * 12 / 100;
+                            int j1 = k + l;
+                            int k1 = itemstack1.h() - j1;
+
+                            if (k1 < 0) {
+                                k1 = 0;
+                            }
+
+                            if (k1 < itemstack1.getDamage()) {
+                                itemstack1.setDamage(k1);
+                                i += 2;
+                            }
+                        }
+
+                        Map<Enchantment, Integer> map1 = EnchantmentManager.a(itemstack2);
+                        boolean flag1 = false;
+                        boolean flag2 = false;
+                        Iterator<Enchantment> iterator = map1.keySet().iterator();
+
+                        while (iterator.hasNext()) {
+                            Enchantment enchantment = iterator.next();
+
+                            if (enchantment != null) {
+                                int l1 = map.containsKey(enchantment) ? ((Integer)map.get(enchantment)).intValue() : 0;
+                                int i2 = ((Integer)map1.get(enchantment)).intValue();
+
+                                i2 = (l1 == i2) ? (i2 + 1) : Math.max(i2, l1);
+                                boolean flag3 = enchantment.canEnchant(itemstack);
+
+                                if (this.player.abilities.canInstantlyBuild || itemstack.getItem() == Items.ENCHANTED_BOOK) {
+                                    flag3 = true;
+                                }
+
+                                Iterator<Enchantment> iterator1 = map.keySet().iterator();
+
+                                while (iterator1.hasNext()) {
+                                    Enchantment enchantment1 = iterator1.next();
+
+                                    if (enchantment1 != enchantment && !enchantment.b(enchantment1)) {
+                                        flag3 = false;
+                                        i++;
+                                    }
+                                }
+
+                                if (!flag3) {
+                                    flag2 = true; continue;
+                                }
+                                flag1 = true;
+                                if (i2 > enchantment.getMaxLevel()) {
+                                    i2 = enchantment.getMaxLevel();
+                                }
+
+                                map.put(enchantment, Integer.valueOf(i2));
+                                int j2 = 0;
+
+                                switch (enchantment.d()) {
+                                    case null:
+                                        j2 = 1;
+                                        break;
+                                    case UNCOMMON:
+                                        j2 = 2;
+                                        break;
+                                    case RARE:
+                                        j2 = 4;
+                                        break;
+                                    case VERY_RARE:
+                                        j2 = 8;
+                                        break;
+                                }
+                                if (flag) {
+                                    j2 = Math.max(1, j2 / 2);
+                                }
+
+                                i += j2 * i2;
+                                if (itemstack.getCount() > 1) {
+                                    i = 40;
+                                }
+                            }
+                        }
+
+
+                        if (flag2 && !flag1) {
+                            CraftEventFactory.callPrepareAnvilEvent((InventoryView)getBukkitView(), ItemStack.a);
+                            this.levelCost = 0;
+
+                            return;
+                        }
+                    }
+                }
+                if (StringUtils.isBlank(this.renameText)) {
+                    if (itemstack.hasName()) {
+                        b1 = 1;
+                        i += b1;
+                        itemstack1.r();
+                    }
+                } else if (!this.renameText.equals(itemstack.getName().getString())) {
+                    b1 = 1;
+                    i += b1;
+                    itemstack1.a(new ChatComponentText(this.renameText));
+                }
+
+                this.levelCost = j + i;
+                if (i <= 0) {
+                    itemstack1 = ItemStack.a;
+                }
+
+                if (b1 == i && b1 > 0 && this.levelCost >= this.maximumRepairCost) {
+                    this.levelCost = this.maximumRepairCost - 1;
+                }
+
+                if (this.levelCost >= this.maximumRepairCost && !this.player.abilities.canInstantlyBuild) {
+                    itemstack1 = ItemStack.a;
+                }
+
+                if (!itemstack1.isEmpty()) {
+                    int k2 = itemstack1.getRepairCost();
+
+                    if (!itemstack2.isEmpty() && k2 < itemstack2.getRepairCost()) {
+                        k2 = itemstack2.getRepairCost();
+                    }
+
+                    if (b1 != i || b1 == 0) {
+                        k2 = k2 * 2 + 1;
+                    }
+
+                    itemstack1.setRepairCost(k2);
+                    EnchantmentManager.a(map, itemstack1);
+                }
+
+                CraftEventFactory.callPrepareAnvilEvent((InventoryView)getBukkitView(), itemstack1);
+                b();
+            }
+        }*/
+
+        @Override
+        public void addSlotListener(ICrafting icrafting) {
+            if (this.listeners.contains(icrafting)) {
+                throw new IllegalArgumentException("Listener already listening");
+            } else {
+                this.listeners.add(icrafting);
+                icrafting.a(this, this.a());
+                this.b();
+            }
+            icrafting.setContainerData(this, 0, 35);
+        }
 
         @Override
         public void e() {
