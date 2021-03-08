@@ -11,23 +11,24 @@ public class CustomTileEntityContainerAnvil implements ITileEntityContainer {
         this.world = paramWorld;
         this.position = paramBlockPosition;
     }
-
+    @Override
     public String getName() {
         return "anvil";
     }
-
+    @Override
     public boolean hasCustomName() {
         return false;
     }
-
+    @Override
     public IChatBaseComponent getScoreboardDisplayName() {
         return new ChatMessage(Blocks.ANVIL.a() + ".name", new Object[0]);
     }
 
+    @Override
     public Container createContainer(PlayerInventory paramPlayerInventory, EntityHuman paramEntityHuman) {
         return new CustomContainerAnvil(paramPlayerInventory, this.world, this.position, paramEntityHuman);
     }
-
+    @Override
     public String getContainerName() {
         return "minecraft:anvil";
     }

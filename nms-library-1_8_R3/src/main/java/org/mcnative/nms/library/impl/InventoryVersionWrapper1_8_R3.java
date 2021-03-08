@@ -64,8 +64,17 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
     @Override
     public Object newContainerAnvil(Player player, String guiTitle) {
-        EntityPlayer entityPlayer = toNMS(player);
-        return new CustomContainerAnvil(entityPlayer.inventory, entityPlayer.world, new BlockPosition(0, 0, 0), entityPlayer);
+        EntityHuman human = ((CraftPlayer)player).getHandle();
+
+        // Our BlockPosition
+        BlockPosition position = new BlockPosition(0, 0, 0);
+
+        CustomTileEntityContainerAnvil container = new CustomTileEntityContainerAnvil(human.world, position);
+        human.openTileEntity(container);
+        return null;
+
+        //EntityPlayer entityPlayer = toNMS(player);
+        //return new CustomContainerAnvil(entityPlayer.inventory, entityPlayer.world, new BlockPosition(0, 0, 0), entityPlayer);
     }
 
     private EntityPlayer toNMS(Player player) {

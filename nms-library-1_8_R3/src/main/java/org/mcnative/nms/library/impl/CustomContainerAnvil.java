@@ -248,7 +248,9 @@ public class CustomContainerAnvil extends Container {
                 repairCost = repairCost * 2 + 1;
                 resultItem.setRepairCost(35);//repairCost
                 EnchantmentManager.a(leftEnchantments, resultItem);
-            }
+                System.out.println(resultItem.getRepairCost());
+            } else System.out.println("not result");
+
             resultSlot.setItem(0, resultItem);
             b();
         }
@@ -260,6 +262,7 @@ public class CustomContainerAnvil extends Container {
      */
     public void addSlotListener(ICrafting icrafting) {
         super.addSlotListener(icrafting);
+        System.out.println(expCost);
         icrafting.setContainerData(this, 0, expCost);//expCost
     }
 
