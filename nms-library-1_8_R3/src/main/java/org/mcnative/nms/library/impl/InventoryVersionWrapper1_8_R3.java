@@ -82,6 +82,8 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
             super(entityhuman.inventory, entityhuman.world, new BlockPosition(0, 0, 0), entityhuman);
             System.out.println("create anvil container with level cost change");
 
+            System.out.println(this.b);
+            System.out.println(this.c);
         }
 
         private static Field setAccessible(Field field) {
