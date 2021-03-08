@@ -64,14 +64,15 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
     @Override
     public Object newContainerAnvil(Player player, String guiTitle) {
-        return new AnvilContainer(toNMS(player));
+        EntityPlayer entityPlayer = toNMS(player);
+        return new CustomContainerAnvil(entityPlayer.inventory, entityPlayer.world, new BlockPosition(0, 0, 0), entityPlayer);
     }
 
     private EntityPlayer toNMS(Player player) {
         return ((CraftPlayer) player).getHandle();
     }
 
-    private static class AnvilContainer extends ContainerAnvil {
+    /*private static class AnvilContainer extends ContainerAnvil {
 
         private final Field gField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "g"));
         private final Field hField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "h"));
@@ -135,7 +136,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                         }
                     } else if (!world.isClientSide) {
                         world.triggerEffect(1021, blockPosition, 0);
-                    }*/
+                    }*
 
                 }
             });
@@ -352,7 +353,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                 CraftEventFactory.callPrepareAnvilEvent((InventoryView)getBukkitView(), itemstack1);
                 b();
             }
-        }*/
+        }*
 
         @Override
         public void addSlotListener(ICrafting icrafting) {
@@ -558,5 +559,5 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                 this.b();
             }
         }
-    }
+    }*/
 }
