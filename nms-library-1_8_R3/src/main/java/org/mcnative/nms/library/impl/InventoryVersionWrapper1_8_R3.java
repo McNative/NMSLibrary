@@ -81,7 +81,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
         public AnvilContainer(EntityHuman entityhuman) {
             super(entityhuman.inventory, entityhuman.world, new BlockPosition(0, 0, 0), entityhuman);
             System.out.println("create anvil container with level cost change");
-            this.a = 49;
+
         }
 
         private static Field setAccessible(Field field) {
@@ -115,6 +115,13 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
         @Override
         public void e() {
+            this.a = 0;
+            changeFieldValue(this, kField, 0);
+        }
+
+        /*@Override
+        public void e() {
+            System.out.println("e() void");
             IInventory g = getFieldValue(this,  gField, IInventory.class);
             IInventory h = getFieldValue(this, hField, IInventory.class);
             EntityHuman m = getFieldValue(this, mField, EntityHuman.class);
@@ -303,6 +310,6 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                 g.setItem(0, itemstack1);
                 this.b();
             }
-        }
+        }*/
     }
 }
