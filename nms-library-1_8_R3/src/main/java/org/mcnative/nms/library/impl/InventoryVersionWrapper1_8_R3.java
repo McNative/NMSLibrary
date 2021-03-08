@@ -115,8 +115,8 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
         @Override
         public void e() {
-            this.a = 0;
-            changeFieldValue(this, kField, 0);
+            this.a = 25;
+            changeFieldValue(this, kField, 25);
         }
 
         /*@Override
