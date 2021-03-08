@@ -80,7 +80,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
         public AnvilContainer(EntityHuman entityhuman) {
             super(entityhuman.inventory, entityhuman.world, new BlockPosition(0, 0, 0), entityhuman);
-            System.out.println("create anvil container");
+            System.out.println("create anvil container with level cost change");
             this.a = 49;
         }
 
@@ -122,7 +122,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
 
             ItemStack itemstack = h.getItem(0);
-            this.a = 1;
+            this.a = 35;//1
             int i = 0;
             byte b0 = 0;
             byte b1 = 0;
@@ -276,13 +276,13 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                     itemstack1.c(l2);
                 }
 
-                this.a = j + i;
+                this.a = 35;//j + i
                 if (i <= 0) {
                     itemstack1 = null;
                 }
 
                 if (b1 == i && b1 > 0 && this.a >= 40) {
-                    this.a = 39;
+                    this.a = 35;//39
                 }
 
                 if (this.a >= 40 && !m.abilities.canInstantlyBuild) {
