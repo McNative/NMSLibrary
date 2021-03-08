@@ -76,6 +76,7 @@ public class CustomContainerAnvil extends Container {
 
     @SuppressWarnings("unchecked")
     public void updateAnvilDisplay() {
+        System.out.println("updateAnvilDisplay");
         ItemStack leftSlot = processSlots.getItem(0);
 
         expCost = 35;//1
@@ -259,7 +260,7 @@ public class CustomContainerAnvil extends Container {
      */
     public void addSlotListener(ICrafting icrafting) {
         super.addSlotListener(icrafting);
-        icrafting.setContainerData(this, 0, 35);//expCost
+        icrafting.setContainerData(this, 0, expCost);//expCost
     }
 
     @Override
