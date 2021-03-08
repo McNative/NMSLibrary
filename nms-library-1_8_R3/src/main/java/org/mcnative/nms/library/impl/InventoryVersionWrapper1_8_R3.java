@@ -1,6 +1,7 @@
 package org.mcnative.nms.library.impl;
 
 import net.minecraft.server.v1_8_R3.*;
+import net.pretronic.libraries.utility.Iterators;
 import net.pretronic.libraries.utility.reflect.ReflectException;
 import net.pretronic.libraries.utility.reflect.ReflectionUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -78,12 +79,66 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
         private final Field lField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "l"));
         private final Field kField = setAccessible(ReflectionUtil.getField(ContainerAnvil.class,  "k"));
 
-        public AnvilContainer(EntityHuman entityhuman) {
-            super(entityhuman.inventory, entityhuman.world, new BlockPosition(0, 0, 0), entityhuman);
-            System.out.println("create anvil container with level cost change");
+        private final static BlockPosition blockPosition = new BlockPosition(0, 0, 0);
 
-            System.out.println(this.b);
-            System.out.println(this.c);
+        public AnvilContainer(EntityHuman entityhuman) {
+            super(entityhuman.inventory, entityhuman.world, blockPosition, entityhuman);
+            System.out.println("create anvil container with level cost change slot change");
+
+            Iterators.remove(this.c, slot -> slot.index == 2);
+
+            IInventory g = getFieldValue(this,  gField, IInventory.class);
+
+            this.a(new Slot(g, 2, 134, 47) {
+                public boolean isAllowed(ItemStack itemstack) {
+                    return false;
+                }
+
+                public boolean isAllowed(EntityHuman entityhuman) {
+                    return true;//(entityhuman.abilities.canInstantlyBuild || entityhuman.expLevel >= a) && a > 0 && this.hasItem();
+                }
+
+                public void a(EntityHuman entityhuman, ItemStack itemstack) {
+                    if (!entityhuman.abilities.canInstantlyBuild) {
+                        //entityhuman.levelDown(-a);
+                    }
+
+                    IInventory h = getFieldValue(this, hField, IInventory.class);
+
+                    World world = entityhuman.world;
+                    h.setItem(0, (ItemStack)null);
+
+                    int k = getFieldValue(this, kField, int.class);
+                    if (k > 0) {
+                        ItemStack itemstack1 = h.getItem(1);
+                        if (itemstack1 != null && itemstack1.count > k) {
+                            itemstack1.count -= k;
+                            h.setItem(1, itemstack1);
+                        } else {
+                            h.setItem(1, (ItemStack)null);
+                        }
+                    } else {
+                        h.setItem(1, (ItemStack)null);
+                    }
+
+                    a = 0;
+                    /*IBlockData iblockdata = world.getType(blockPosition);
+                    if (!entityhuman.abilities.canInstantlyBuild && !world.isClientSide && iblockdata.getBlock() == Blocks.ANVIL && entityhuman.bc().nextFloat() < 0.12F) {
+                        int i = (Integer)iblockdata.get(BlockAnvil.DAMAGE);
+                        ++i;
+                        if (i > 2) {
+                            world.setAir(blockPosition);
+                            world.triggerEffect(1020, blockPosition, 0);
+                        } else {
+                            world.setTypeAndData(blockPosition, iblockdata.set(BlockAnvil.DAMAGE, i), 2);
+                            world.triggerEffect(1021, blockPosition, 0);
+                        }
+                    } else if (!world.isClientSide) {
+                        world.triggerEffect(1021, blockPosition, 0);
+                    }*/
+
+                }
+            });
         }
 
         private static Field setAccessible(Field field) {
