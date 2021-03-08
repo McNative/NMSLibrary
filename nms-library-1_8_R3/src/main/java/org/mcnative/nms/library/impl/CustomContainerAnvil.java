@@ -38,7 +38,7 @@ public class CustomContainerAnvil extends Container {
     private final IInventory processSlots = new CustomContainerAnvilInventory(this, "Repair", true, 2);
     private final World inWorld;
     private final BlockPosition position;
-    public int expCost;
+    public int expCost = 35;
     private int iDontKnow;
     private String textbox;
     private final EntityHuman human;
@@ -78,7 +78,7 @@ public class CustomContainerAnvil extends Container {
     public void updateAnvilDisplay() {
         ItemStack leftSlot = processSlots.getItem(0);
 
-        expCost = 1;
+        expCost = 35;//1
         int reRepairCostAddition = 0;
         byte costOffsetModifier = 0;
 
@@ -86,7 +86,7 @@ public class CustomContainerAnvil extends Container {
         if (leftSlot == null) {
             // Make sure we don't have a result item.
             resultSlot.setItem(0, (ItemStack) null);
-            expCost = 0;
+            expCost = 35;//0
         } else {
             ItemStack resultItem = leftSlot.cloneItemStack();
             ItemStack rightSlot = processSlots.getItem(1);
@@ -102,7 +102,7 @@ public class CustomContainerAnvil extends Container {
                     int k = Math.min(resultItem.h(), resultItem.j() / 4);
                     if (k <= 0) {
                         resultSlot.setItem(0, (ItemStack) null);
-                        expCost = 0;
+                        expCost = 35;//0
                         return;
                     }
                     int someVariable;
@@ -119,7 +119,7 @@ public class CustomContainerAnvil extends Container {
                     if (!usingEnchantedBook && (resultItem.getItem() != rightSlot.getItem() || !resultItem.e())) {
                         // Make sure we don't have a result item.
                         resultSlot.setItem(0, (ItemStack) null);
-                        expCost = 0;
+                        expCost = 35;//0
                         return;
                     }
 
@@ -225,12 +225,12 @@ public class CustomContainerAnvil extends Container {
             }
 
             // Apply the costs for re-repairing the items.
-            expCost = existingReRepairCost + reRepairCostAddition;
+            expCost = 35;//existingReRepairCost + reRepairCostAddition;
             if (reRepairCostAddition <= 0) {
                 resultItem = null;
             }
             if (costOffsetModifier == reRepairCostAddition && costOffsetModifier > 0 && expCost >= 40) {
-                expCost = 39;
+                expCost = 35;//39
             }
 
             // Max out at exp-cost 40 repairs.
@@ -259,7 +259,7 @@ public class CustomContainerAnvil extends Container {
      */
     public void addSlotListener(ICrafting icrafting) {
         super.addSlotListener(icrafting);
-        icrafting.setContainerData(this, 0, expCost);
+        icrafting.setContainerData(this, 0, 35);//expCost
     }
 
     @Override
