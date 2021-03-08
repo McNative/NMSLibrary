@@ -267,6 +267,7 @@ public class CustomContainerAnvil extends Container {
      * Called when the player closes this inventory.
      */
     public void b(EntityHuman entityhuman) {
+        /*
         super.b(entityhuman);
         if (!inWorld.isClientSide) {
             for (int i = 0; i < processSlots.getSize(); i++) {
@@ -276,6 +277,7 @@ public class CustomContainerAnvil extends Container {
                 }
             }
         }
+         */
     }
 
     @Override
@@ -286,8 +288,11 @@ public class CustomContainerAnvil extends Container {
      *  must close the inventory.
      */
     public boolean a(EntityHuman entityhuman) {
+        /*
         if (!checkReachable) { return true; }
         return inWorld.getType(position).getBlock() == Blocks.ANVIL;
+         */
+        return true;
     }
 
     @Override
