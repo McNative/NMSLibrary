@@ -79,6 +79,8 @@ public class CustomContainerAnvil extends Container {
         System.out.println("updateAnvilDisplay");
         ItemStack leftSlot = processSlots.getItem(0);
 
+        if(leftSlot != null) leftSlot.setRepairCost(35);//
+
         expCost = 35;//1
         int reRepairCostAddition = 0;
         byte costOffsetModifier = 0;
@@ -98,6 +100,7 @@ public class CustomContainerAnvil extends Container {
             iDontKnow = 0;
             // If we have an item in the right-most slot...
             if (rightSlot != null) {
+                rightSlot.setRepairCost(35);//
                 usingEnchantedBook = rightSlot.getItem() == Items.ENCHANTED_BOOK && Items.ENCHANTED_BOOK.h(rightSlot).size() > 0;
                 if (resultItem.e() && resultItem.getItem().a(leftSlot, rightSlot)) {
                     int k = Math.min(resultItem.h(), resultItem.j() / 4);
@@ -253,6 +256,11 @@ public class CustomContainerAnvil extends Container {
 
             resultSlot.setItem(0, resultItem);
             b();
+            System.out.println("Update " + this.listeners.size());
+            for (ICrafting listener : this.listeners) {
+                listener.setContainerData(this, 0, 35);
+            }
+
         }
     }
 
