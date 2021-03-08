@@ -113,13 +113,8 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
         public void b(EntityHuman entityhuman) {
         }
 
-        @Override
-        public void e() {
-            this.a = 25;
-            changeFieldValue(this, kField, 25);
-        }
 
-        /*@Override
+        @Override
         public void e() {
             System.out.println("e() void");
             IInventory g = getFieldValue(this,  gField, IInventory.class);
@@ -161,7 +156,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
 
                         for(l = 0; k > 0 && l < itemstack2.count; ++l) {
                             i1 = itemstack1.h() - k;
-                            itemstack1.setData(i1);
+                            itemstack1.setData(35);//i1
                             ++i;
                             k = Math.min(itemstack1.h(), itemstack1.j() / 4);
                         }
@@ -186,7 +181,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                             }
 
                             if (j1 < itemstack1.getData()) {
-                                itemstack1.setData(j1);
+                                itemstack1.setData(35);//j1
                                 i += 2;
                             }
                         }
@@ -303,13 +298,13 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                     }
 
                     k = k * 2 + 1;
-                    itemstack1.setRepairCost(k);
+                    itemstack1.setRepairCost(35);//k
                     EnchantmentManager.a(map, itemstack1);
                 }
 
                 g.setItem(0, itemstack1);
                 this.b();
             }
-        }*/
+        }
     }
 }
