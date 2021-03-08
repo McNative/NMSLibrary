@@ -139,7 +139,7 @@ public class InventoryVersionWrapper1_8_R3 implements InventoryVersionWrapper {
                 int j = b0 + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
 
                 ///this.k = 0;
-                changeFieldValue(this, kField, 0);
+                changeFieldValue(this, kField, 35);
 
                 int k;
                 if (itemstack2 != null) {
