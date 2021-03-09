@@ -94,7 +94,7 @@ public class CustomContainerAnvil extends Container {
             ItemStack resultItem = leftSlot.cloneItemStack();
             ItemStack rightSlot = processSlots.getItem(1);
             Map<Integer, Integer> leftEnchantments = EnchantmentManager.a(resultItem);
-            boolean usingEnchantedBook = false;
+            boolean usingEnchantedBook;
             int existingReRepairCost = leftSlot.getRepairCost() + (rightSlot == null ? 0 : rightSlot.getRepairCost());
 
             iDontKnow = 0;
@@ -130,7 +130,7 @@ public class CustomContainerAnvil extends Container {
                     // If we're not using an enchanted book (therefore, we must
                     // be repairing at this point)...
                     if (resultItem.e() && !usingEnchantedBook) {
-                        // Compute the new durability.
+                        // Compute the new durability. Max durability-damage
                         int leftDurability = leftSlot.j() - leftSlot.h();
                         int rightDurability = rightSlot.j() - rightSlot.h();
                         int i1 = rightDurability + resultItem.j() * 12 / 100;
@@ -147,17 +147,15 @@ public class CustomContainerAnvil extends Container {
                     }
 
                     Map<Integer, Integer> rightEnchantments = EnchantmentManager.a(rightSlot);
-                    Iterator<Integer> rightEnchantIter = rightEnchantments.keySet().iterator();
-                    while (rightEnchantIter.hasNext()) {
-                        int enchantmentID = rightEnchantIter.next().intValue();
+                    for (int enchantmentID : rightEnchantments.keySet()) {
                         Enchantment enchantment = Enchantment.getById(enchantmentID);
-                        if (enchantment != null) {
+                        if(enchantment != null) {
                             // Compute a new enchantment level.
-                            int leftLevel = leftEnchantments.containsKey(Integer.valueOf(enchantmentID)) ? leftEnchantments.get(
-                                    Integer.valueOf(enchantmentID)).intValue() : 0;
-                            int rightLevel = rightEnchantments.get(Integer.valueOf(enchantmentID)).intValue();
+                            int leftLevel = leftEnchantments.getOrDefault(
+                                    enchantmentID, 0);
+                            int rightLevel = rightEnchantments.get(enchantmentID);
                             int newLevel;
-                            if (leftLevel == rightLevel) {
+                            if(leftLevel == rightLevel) {
                                 rightLevel++;
                                 newLevel = rightLevel;
                             } else {
@@ -165,20 +163,18 @@ public class CustomContainerAnvil extends Container {
                             }
                             rightLevel = newLevel;
                             boolean enchantable = enchantment.canEnchant(leftSlot);
-                            if (human.abilities.canInstantlyBuild || leftSlot.getItem() == Items.ENCHANTED_BOOK) {
+                            if(human.abilities.canInstantlyBuild || leftSlot.getItem() == Items.ENCHANTED_BOOK) {
                                 enchantable = true;
                             }
-                            Iterator<Integer> leftEnchantIter = leftEnchantments.keySet().iterator();
-                            while (leftEnchantIter.hasNext()) {
-                                int enchantID = leftEnchantIter.next().intValue();
-                                if (enchantID != enchantmentID && !enchantment.a(Enchantment.getById(enchantID))) {
+                            for (Integer enchantID : leftEnchantments.keySet()) {
+                                if(enchantID != enchantmentID && !enchantment.a(Enchantment.getById(enchantID))) {
                                     enchantable = false;
                                     reRepairCostAddition++;
                                 }
                             }
-                            if (enchantable) {
+                            if(enchantable) {
                                 // Make sure we don't apply a level too high.
-                                if (rightLevel > enchantment.getMaxLevel()) {
+                                if(rightLevel > enchantment.getMaxLevel()) {
                                     rightLevel = enchantment.getMaxLevel();
                                 }
                                 leftEnchantments.put(Integer.valueOf(enchantmentID), Integer.valueOf(rightLevel));
@@ -203,7 +199,7 @@ public class CustomContainerAnvil extends Container {
                                     case 10:
                                         randomCostModifier = 1;
                                 }
-                                if (usingEnchantedBook) {
+                                if(usingEnchantedBook) {
                                     randomCostModifier = Math.max(1, randomCostModifier / 2);
                                 }
                                 reRepairCostAddition += randomCostModifier * rightLevel;
@@ -226,6 +222,7 @@ public class CustomContainerAnvil extends Container {
                 costOffsetModifier = 1;
                 reRepairCostAddition += costOffsetModifier;
                 resultItem.c(textbox);
+                this.textbox = leftSlot.getName();
             }
 
             // Apply the costs for re-repairing the items.
@@ -233,24 +230,25 @@ public class CustomContainerAnvil extends Container {
             if (reRepairCostAddition <= 0) {
                 resultItem = null;
             }
-            if (costOffsetModifier == reRepairCostAddition && costOffsetModifier > 0 && expCost >= 40) {
+            //Max cost check
+            /*if (costOffsetModifier == reRepairCostAddition && costOffsetModifier > 0 && expCost >= 40) {
                 expCost = 35;//39
-            }
+            }*/
 
             // Max out at exp-cost 40 repairs.
-            if (expCost >= 40 && !human.abilities.canInstantlyBuild) {
+            /*if (expCost >= 40 && !human.abilities.canInstantlyBuild) {
                 resultItem = null;
-            }
+            }*/
 
             // Apply everything to our result item.
             if (resultItem != null) {
-                int repairCost = resultItem.getRepairCost();
+                /*int repairCost = resultItem.getRepairCost();
                 if (rightSlot != null && repairCost < rightSlot.getRepairCost()) {
                     repairCost = rightSlot.getRepairCost();
-                }
-                repairCost = repairCost * 2 + 1;
-                resultItem.setRepairCost(35);//repairCost
-                EnchantmentManager.a(leftEnchantments, resultItem);
+                }*/
+                //repairCost = repairCost * 2 + 1;
+                resultItem.setRepairCost(expCost);//repairCost
+                EnchantmentManager.a(leftEnchantments, resultItem);//Apply enchantments to resultItem
                 System.out.println(resultItem.getRepairCost());
             } else System.out.println("not result");
 
