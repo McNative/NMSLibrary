@@ -38,7 +38,7 @@ public class CustomContainerAnvil extends Container {
     private final IInventory processSlots = new CustomContainerAnvilInventory(this, "Repair", true, 2);
     private final World inWorld;
     private final BlockPosition position;
-    public int expCost = 35;
+    public int expCost;
     private int iDontKnow;
     private String textbox;
     private final EntityHuman human;
@@ -131,21 +131,13 @@ public class CustomContainerAnvil extends Container {
         return itemResult;
     }
 
-    /**
-     * This is called when a player places an item in the anvil inventory.
-     */
-    @Override
-    public void a(IInventory iinventory) {
-        onAnvilInventoryClick(iinventory);
-    }
-
     public void updateAnvilDisplay() {
         System.out.println("updateAnvilDisplay");
         ItemStack leftSlot = processSlots.getItem(0);
 
         if(leftSlot != null) leftSlot.setRepairCost(35);//
 
-        expCost = 35;//1
+        expCost = 1;//1
         int reRepairCostAddition = 0;
         byte costOffsetModifier = 0;
 
@@ -295,23 +287,23 @@ public class CustomContainerAnvil extends Container {
                 resultItem = null;
             }
             //Max cost check
-            /*if (costOffsetModifier == reRepairCostAddition && costOffsetModifier > 0 && expCost >= 40) {
-                expCost = 35;//39
-            }*/
+            if (costOffsetModifier == reRepairCostAddition && costOffsetModifier > 0 && expCost >= 40) {
+                expCost = 39;//39
+            }
 
             // Max out at exp-cost 40 repairs.
-            /*if (expCost >= 40 && !human.abilities.canInstantlyBuild) {
+            if (expCost >= 40 && !human.abilities.canInstantlyBuild) {
                 resultItem = null;
-            }*/
+            }
 
             // Apply everything to our result item.
             if (resultItem != null) {
-                /*int repairCost = resultItem.getRepairCost();
+                int repairCost = resultItem.getRepairCost();
                 if (rightSlot != null && repairCost < rightSlot.getRepairCost()) {
                     repairCost = rightSlot.getRepairCost();
-                }*/
-                //repairCost = repairCost * 2 + 1;
-                resultItem.setRepairCost(expCost);//repairCost
+                }
+                repairCost = repairCost * 2 + 1;
+                resultItem.setRepairCost(repairCost);//repairCost
                 EnchantmentManager.a(leftEnchantments, resultItem);//Apply enchantments to resultItem
                 System.out.println("repairCost:"+resultItem.getRepairCost());
             } else System.out.println("not result");
@@ -319,14 +311,19 @@ public class CustomContainerAnvil extends Container {
             resultSlot.setItem(0, resultItem);
             b();
             System.out.println("Update " + this.listeners.size() + ":" + expCost + ":" + iDontKnow);
-            for (ICrafting listener : this.listeners) {
+            /*for (ICrafting listener : this.listeners) {
                 listener.setContainerData(this, 0, 35);
-            }
-
+            }*/
         }
     }
 
-
+    /**
+     * This is called when a player places an item in the anvil inventory.
+     */
+    @Override
+    public void a(IInventory iinventory) {
+        onAnvilInventoryClick(iinventory);
+    }
 
     /**
      * Called when the player closes this inventory.
