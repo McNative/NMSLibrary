@@ -313,12 +313,12 @@ public class CustomContainerAnvil extends Container {
                 //repairCost = repairCost * 2 + 1;
                 resultItem.setRepairCost(expCost);//repairCost
                 EnchantmentManager.a(leftEnchantments, resultItem);//Apply enchantments to resultItem
-                System.out.println(resultItem.getRepairCost());
+                System.out.println("repairCost:"+resultItem.getRepairCost());
             } else System.out.println("not result");
 
             resultSlot.setItem(0, resultItem);
             b();
-            System.out.println("Update " + this.listeners.size());
+            System.out.println("Update " + this.listeners.size() + ":" + expCost + ":" + iDontKnow);
             for (ICrafting listener : this.listeners) {
                 listener.setContainerData(this, 0, 35);
             }
