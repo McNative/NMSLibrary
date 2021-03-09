@@ -77,7 +77,9 @@ public class CustomContainerAnvil extends Container {
             this.expCost = 27;
 
             org.bukkit.inventory.ItemStack bukkitItem = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND);
-            ItemStack resultItem = processSlots.getItem(0).cloneItemStack();
+            ItemStack leftSlot = processSlots.getItem(0);
+            if(leftSlot == null) return;
+            ItemStack resultItem = leftSlot.cloneItemStack();
             resultItem.setRepairCost(expCost);
 
             resultSlot.setItem(0, resultItem);
