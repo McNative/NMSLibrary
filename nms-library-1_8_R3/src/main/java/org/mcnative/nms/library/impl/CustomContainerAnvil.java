@@ -27,6 +27,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryAnvil;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryView;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
@@ -72,9 +73,21 @@ public class CustomContainerAnvil extends Container {
     public void onAnvilInventoryClick(IInventory inventory) {
         super.a(inventory);
         if (inventory == processSlots) {
-            updateAnvilDisplay();
+            //updateAnvilDisplay();
+            this.expCost = 27;
+
+            org.bukkit.inventory.ItemStack bukkitItem = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND);
+            ItemStack resultItem = CraftItemStack.asNMSCopy(bukkitItem);
+            resultItem.setRepairCost(expCost);
+
+            resultSlot.setItem(0, resultItem);
+
+            for (ICrafting listener : this.listeners) {
+                listener.setContainerData(this, 0, expCost);
+            }
         }
     }
+
 
     @NMSHelper
     public void onAnvilClose(EntityHuman entityhuman) {
@@ -135,7 +148,7 @@ public class CustomContainerAnvil extends Container {
         System.out.println("updateAnvilDisplay");
         ItemStack leftSlot = processSlots.getItem(0);
 
-        if(leftSlot != null) leftSlot.setRepairCost(35);//
+        //if(leftSlot != null) leftSlot.setRepairCost(35);//
 
         expCost = 1;//1
         int reRepairCostAddition = 0;
@@ -156,7 +169,7 @@ public class CustomContainerAnvil extends Container {
             iDontKnow = 0;
             // If we have an item in the right-most slot...
             if (rightSlot != null) {
-                rightSlot.setRepairCost(35);//
+                //rightSlot.setRepairCost(35);//
                 usingEnchantedBook = rightSlot.getItem() == Items.ENCHANTED_BOOK && Items.ENCHANTED_BOOK.h(rightSlot).size() > 0;
                 if (resultItem.e() && resultItem.getItem().a(leftSlot, rightSlot)) {
                     int k = Math.min(resultItem.h(), resultItem.j() / 4);
@@ -282,7 +295,7 @@ public class CustomContainerAnvil extends Container {
             }
 
             // Apply the costs for re-repairing the items.
-            expCost = 35;//existingReRepairCost + reRepairCostAddition;
+            expCost = existingReRepairCost + reRepairCostAddition;;//
             if (reRepairCostAddition <= 0) {
                 resultItem = null;
             }
