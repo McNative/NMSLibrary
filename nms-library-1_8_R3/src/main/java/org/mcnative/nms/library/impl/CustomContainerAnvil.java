@@ -81,6 +81,7 @@ public class CustomContainerAnvil extends Container {
             resultItem.setRepairCost(expCost);
 
             resultSlot.setItem(0, resultItem);
+            b();
 
             for (ICrafting listener : this.listeners) {
                 listener.setContainerData(this, 0, expCost);
