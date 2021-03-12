@@ -79,15 +79,15 @@ public class CustomContainerAnvil extends Container {
             org.bukkit.inventory.ItemStack bukkitItem = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND);
             ItemStack leftSlot = processSlots.getItem(0);
             if(leftSlot == null) return;
-            ItemStack resultItem = leftSlot.cloneItemStack();
+            ItemStack resultItem = CraftItemStack.asNMSCopy(bukkitItem);
             resultItem.setRepairCost(expCost);
 
             resultSlot.setItem(0, resultItem);
             b();
 
-            /*for (ICrafting listener : this.listeners) {
+            for (ICrafting listener : this.listeners) {
                 listener.setContainerData(this, 0, expCost);
-            }*/
+            }
         }
     }
 
