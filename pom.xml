@@ -7,7 +7,7 @@
     <groupId>org.mcnative.nmslibrary</groupId>
     <artifactId>NMSLibrary</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.32.35-SNAPSHOT</version>
+    <version>1.0.33.36-SNAPSHOT</version>
     <modules>
         <module>nms-library-1_8_R1</module>
         <module>nms-library-api</module>
